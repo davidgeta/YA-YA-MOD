@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .converter-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .converter-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            word-break: break-all;
+            display: none;
+        }
+
+        .result-box.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Time & Hex Converter</h2>
+
+        <div class="converter-section">
+            <label for="datetimeInput">Select Date and Time</label>
+            <input type="datetime-local" id="datetimeInput" step="0.001">
+            <button onclick="convertToMs()">Convert to Milliseconds</button>
+            <div id="msResult" class="result-box"></div>
+        </div>
+
+        <div class="converter-section">
+            <label for="msInput">Enter Milliseconds</label>
+            <input type="number" id="msInput" placeholder="e.g., 1712255450000">
+            <button onclick="convertToHex()">Convert to Hex</button>
+            <div id="hexResult" class="result-box"></div>
+        </div>
+    </div>
+
+    <script>
+        // Function to convert DateTime to Milliseconds
+        function convertToMs() {
+            const datetimeInput = document.getElementById('datetimeInput').value;
+            const resultBox = document.getElementById('msResult');
+
+            if (!datetimeInput) {
+                resultBox.textContent = "Please select a date and time!";
+                resultBox.style.color = "#dc2626"; // red
+                resultBox.classList.add('active');
+                return;
+            }
+
+            const dateObj = new Date(datetimeInput);
+            const ms = dateObj.getTime();
+
+            resultBox.textContent = ms + " ms";
+            resultBox.style.color = "var(--text-main)";
+            resultBox.classList.add('active');
+            
+            // Automatically fill the hex input box for convenience
+            document.getElementById('msInput').value = ms;
+        }
+
+        // Function to convert Milliseconds to Hexadecimal
+        function convertToHex() {
+            const msInput = document.getElementById('msInput').value;
+            const resultBox = document.getElementById('hexResult');
+
+            if (!msInput) {
+                resultBox.textContent = "Please enter milliseconds!";
+                resultBox.style.color = "#dc2626"; // red
+                resultBox.classList.add('active');
+                return;
+            }
+
+            // Convert string to integer, then to hex (base 16), and uppercase it
+            const hexValue = parseInt(msInput).toString(16).toUpperCase();
+
+            resultBox.innerHTML = "0x" + hexValue;
+            resultBox.style.color = "var(--text-main)";
+            resultBox.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
