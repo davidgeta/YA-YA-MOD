@@ -8,18 +8,18 @@
     <style>
         :root {
             /* One Piece / Straw Hat Colors */
-            --primary-color: #f1c40f; /* Luffy's Straw Hat Gold */
+            --primary-color: #f1c40f; 
             --primary-glow: #f39c12;
-            --accent-color: #e74c3c; /* Luffy's Vest Red */
+            --accent-color: #e74c3c; 
             --accent-glow: #c0392b;
-            --bg-ocean: #2c3e50; /* Deep Ocean Blue */
-            --bg-overlay: rgba(15, 23, 42, 0.7); /* Darker blue overlay */
-            --card-bg-glass: rgba(255, 255, 255, 0.1); /* Transparent glass */
+            --bg-ocean: #2c3e50; 
+            --bg-overlay: rgba(15, 23, 42, 0.7); 
+            --card-bg-glass: rgba(255, 255, 255, 0.1); 
             --card-border-glass: rgba(255, 255, 255, 0.15);
             --text-main: #ecf0f1;
             --text-label: #bdc3c7;
             --font-main: 'Inter', sans-serif;
-            --font-title: 'Cinzel', serif; /* Thematic font */
+            --font-title: 'Cinzel', serif; 
         }
 
         body {
@@ -27,7 +27,7 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* align-items: center ဖြုတ်ပြီး margin: auto သုံးထားပါတယ် (Scroll ဆွဲရအဆင်ပြေအောင်) */
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -35,7 +35,7 @@
             background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                         url('https://i.ibb.co/X7R0G5K/thousand-sunny-ocean.jpg') no-repeat center center fixed;
             background-size: cover;
-            overflow: hidden; /* Prevent background scroll */
+            /* overflow: hidden; ကို ဖြုတ်လိုက်ပါပြီ */
         }
 
         /* Container Fade-in Animation */
@@ -62,6 +62,7 @@
             width: 100%;
             max-width: 550px;
             position: relative;
+            margin: auto; /* Screen အလယ်မှာရှိနေစေဖို့ */
             animation: fadeInSlideUp 0.6s ease-out forwards;
         }
 
@@ -74,6 +75,7 @@
             color: var(--primary-color);
             text-shadow: 0 0 10px var(--primary-glow);
             font-size: 2rem;
+            line-height: 1.2;
         }
 
         p.subtitle {
@@ -97,7 +99,7 @@
         }
 
         .input-group:hover {
-            transform: translateY(-3px); /* Subtle float on group hover */
+            transform: translateY(-3px); 
         }
 
         .input-group.full-width {
@@ -115,7 +117,7 @@
         }
 
         label i {
-            color: var(--primary-color); /* Icons in gold */
+            color: var(--primary-color); 
         }
 
         input {
@@ -132,14 +134,12 @@
             transition: all 0.3s ease;
         }
 
-        /* Input Hover Effect */
         input:hover {
             background-color: rgba(255, 255, 255, 0.1);
             transform: scale(1.02);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Input Focus Effect */
         input:focus {
             outline: none;
             background-color: rgba(255, 255, 255, 0.15);
@@ -153,7 +153,7 @@
             font-weight: 600;
             color: #fff;
             letter-spacing: 1px;
-            background-color: rgba(231, 76, 60, 0.1); /* Red hint for hex */
+            background-color: rgba(231, 76, 60, 0.1); 
         }
 
         .hex-input:focus {
@@ -161,7 +161,6 @@
             box-shadow: 0 0 15px var(--accent-glow);
         }
         
-        /* Thematic Divider */
         hr {
             border: none;
             border-top: 2px solid var(--card-border-glass);
@@ -172,27 +171,36 @@
         }
 
         hr::after {
-            content: "☠️"; /* Straw Hat Skull Icon */
+            content: "☠️"; 
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--card-bg-glass);
+            background-color: transparent;
             padding: 0 10px;
             color: var(--primary-color);
             font-size: 1.2rem;
             text-shadow: 0 0 5px var(--primary-glow);
         }
         
+        /* Mobile Devices အတွက် Responsive အပြင်အဆင် */
         @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem; /* ဖုန်းမှာ Space နည်းနည်းလျှော့ပေးထားတယ် */
+            }
             .grid-layout {
                 grid-template-columns: 1fr;
+                gap: 1.25rem;
             }
             .input-group.full-width {
                 grid-column: span 1;
             }
             hr {
                 grid-column: span 1;
+                margin: 1.5rem 0;
+            }
+            h2 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -201,7 +209,7 @@
 <body>
 
     <div class="container">
-        <h2><i class="fas fa-ship"></i> Thousand Sunny <i class="fas fa-history"></i> Transmuter</h2>
+        <h2><i class="fas fa-ship"></i> Thousand Sunny <br> <i class="fas fa-history"></i> Transmuter</h2>
         <p class="subtitle">Enter any numeric bounty to calculate the full treasure value!</p>
 
         <div class="grid-layout">
@@ -240,7 +248,6 @@
     </div>
 
     <script>
-        // DOM Elements
         const els = {
             day: document.getElementById('inp-day'),
             hour: document.getElementById('inp-hour'),
@@ -250,7 +257,6 @@
             hex: document.getElementById('inp-hex')
         };
 
-        // Millisecond multipliers for each unit
         const multipliers = {
             day: 86400000,
             hour: 3600000,
@@ -259,7 +265,6 @@
             ms: 1
         };
 
-        // Function to update all fields based on a base Millisecond value
         function updateFromBase(baseMs, sourceId) {
             if (sourceId !== 'day') els.day.value = formatNumber(baseMs / multipliers.day);
             if (sourceId !== 'hour') els.hour.value = formatNumber(baseMs / multipliers.hour);
@@ -267,7 +272,6 @@
             if (sourceId !== 'second') els.second.value = formatNumber(baseMs / multipliers.second);
             if (sourceId !== 'ms') els.ms.value = formatNumber(baseMs);
             
-            // Hex update (Only calculate for Hex if baseMs is a valid number)
             if (sourceId !== 'hex') {
                 if (baseMs >= 0) {
                     els.hex.value = Math.floor(baseMs).toString(16).toUpperCase();
@@ -277,17 +281,14 @@
             }
         }
 
-        // Helper function to remove trailing zeros for clean UI (e.g. 1.000 -> 1)
         function formatNumber(num) {
             return Number.isInteger(num) ? num : parseFloat(num.toFixed(6));
         }
 
-        // Event handler for typing in inputs
         function handleInput(e) {
             const id = e.target.id.replace('inp-', '');
             let val = e.target.value;
             
-            // Clear all fields if the input is empty
             if (val === '') {
                 Object.values(els).forEach(el => el.value = '');
                 return;
@@ -296,19 +297,15 @@
             let baseMs = 0;
 
             if (id === 'hex') {
-                // If user types in Hex, convert hex to Base Ms
                 baseMs = parseInt(val, 16);
-                if (isNaN(baseMs)) return; // Stop if invalid hex character
+                if (isNaN(baseMs)) return; 
             } else {
-                // If user types in time units, calculate Base Ms
                 baseMs = parseFloat(val) * multipliers[id];
             }
             
-            // Update the rest of the UI
             updateFromBase(baseMs, id);
         }
 
-        // Attach event listeners to all inputs
         Object.values(els).forEach(el => {
             el.addEventListener('input', handleInput);
         });
