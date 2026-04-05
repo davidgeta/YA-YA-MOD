@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece Time Transmuter</title>
+    <title>One Piece Time Transmuter (Ace Edition)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* One Piece / Straw Hat Colors */
+            /* Ace's Flame Colors */
             --primary-color: #f1c40f; 
             --primary-glow: #f39c12;
             --accent-color: #e74c3c; 
             --accent-glow: #c0392b;
-            --bg-ocean: #2c3e50; 
-            --bg-overlay: rgba(15, 23, 42, 0.7); 
-            --card-bg-glass: rgba(255, 255, 255, 0.1); 
-            --card-border-glass: rgba(255, 255, 255, 0.15);
+            
+            --bg-overlay: rgba(15, 23, 42, 0.65); 
+            --card-bg-glass: rgba(20, 20, 25, 0.2); 
             --text-main: #ecf0f1;
             --text-label: #bdc3c7;
             --font-main: 'Inter', sans-serif;
@@ -27,43 +26,81 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            /* align-items: center ဖြုတ်ပြီး margin: auto သုံးထားပါတယ် (Scroll ဆွဲရအဆင်ပြေအောင်) */
             min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
             background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
-                        url('https://raw.githubusercontent.com/davidgeta/YA-YA-MOD/refs/heads/main/nico_robin.jpg') no-repeat center center fixed;
+                        url('https://github.com/davidgeta/YA-YA-MOD/raw/refs/heads/main/44125720-8448-4e38-8f28-1de228526c39.jpeg') no-repeat center center fixed;
             background-size: cover;
-            /* overflow: hidden; ကို ဖြုတ်လိုက်ပါပြီ */
         }
 
-        /* Container Fade-in Animation */
         @keyframes fadeInSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* နေရာကွက်ကြား မီးတောက်မယ့် Animation များ */
+        @keyframes fire-flare-1 {
+            0% { opacity: 0; filter: blur(8px); transform: scale(0.98); }
+            30% { opacity: 1; filter: blur(12px); transform: scale(1.02); }
+            60% { opacity: 0.2; filter: blur(10px); transform: scale(1); }
+            100% { opacity: 0; filter: blur(8px); transform: scale(0.98); }
+        }
+
+        @keyframes fire-flare-2 {
+            0% { opacity: 0.8; filter: blur(10px); transform: scale(1.01); }
+            40% { opacity: 0; filter: blur(6px); transform: scale(0.99); }
+            70% { opacity: 0.9; filter: blur(14px); transform: scale(1.03); }
+            100% { opacity: 0.2; filter: blur(10px); transform: scale(1); }
         }
 
         .container {
-            /* Glassmorphism Effect */
             background-color: var(--card-bg-glass);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid var(--card-border-glass);
+            backdrop-filter: blur(0.6px);
+            -webkit-backdrop-filter: blur(0.6px);
+            
+            /* Box ရဲ့ ပုံမှန်ဘောင်ကို မှိန်ထားပါမယ် */
+            border: 1px solid rgba(255, 100, 0, 0.1);
+            
             padding: 3rem 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 550px;
             position: relative;
-            margin: auto; /* Screen အလယ်မှာရှိနေစေဖို့ */
+            margin: auto; 
+            z-index: 1; /* အနောက်က မီးတောက်တွေ Box အပေါ်မရောက်လာအောင် */
             animation: fadeInSlideUp 0.6s ease-out forwards;
+        }
+
+        /* Box အနောက်ကနေ နေရာကွက်ကြား လင်းမယ့် မီးတောက် (အပိုင်း ၁) */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 25px;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 0%, rgba(255, 69, 0, 0.8) 0%, transparent 35%),
+                radial-gradient(circle at 90% 100%, rgba(255, 165, 0, 0.7) 0%, transparent 40%),
+                radial-gradient(circle at 100% 40%, rgba(255, 0, 0, 0.6) 0%, transparent 30%);
+            animation: fire-flare-1 4s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Box အနောက်ကနေ နေရာကွက်ကြား လင်းမယ့် မီးတောက် (အပိုင်း ၂) */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 25px;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 80% 0%, rgba(255, 140, 0, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 10% 100%, rgba(255, 69, 0, 0.8) 0%, transparent 35%),
+                radial-gradient(circle at 0% 50%, rgba(243, 156, 18, 0.7) 0%, transparent 30%);
+            animation: fire-flare-2 5s infinite alternate-reverse ease-in-out;
+            pointer-events: none;
         }
 
         /* Thematic Title */
@@ -73,7 +110,7 @@
             margin-top: 0;
             margin-bottom: 0.5rem;
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-glow);
+            text-shadow: 0 0 10px var(--primary-glow), 0 0 15px var(--accent-glow);
             font-size: 2rem;
             line-height: 1.2;
         }
@@ -98,13 +135,9 @@
             transition: transform 0.2s ease;
         }
 
-        .input-group:hover {
-            transform: translateY(-3px); 
-        }
+        .input-group:hover { transform: translateY(-3px); }
 
-        .input-group.full-width {
-            grid-column: span 2;
-        }
+        .input-group.full-width { grid-column: span 2; }
 
         label {
             font-size: 0.875rem;
@@ -117,34 +150,34 @@
         }
 
         label i {
-            color: var(--primary-color); 
+            color: #ff9800; 
+            text-shadow: 0 0 5px var(--primary-glow);
         }
 
         input {
             width: 100%;
             padding: 1rem 1.25rem;
             border: none;
-            border-bottom: 2px solid transparent;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             font-size: 1rem;
             font-family: var(--font-main);
             box-sizing: border-box;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(0, 0, 0, 0.3);
             color: var(--text-main);
             transition: all 0.3s ease;
         }
 
         input:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 100, 0, 0.1);
+            border-bottom-color: var(--primary-glow);
         }
 
         input:focus {
             outline: none;
-            background-color: rgba(255, 255, 255, 0.15);
-            border-bottom-color: var(--primary-color);
-            box-shadow: 0 0 15px var(--primary-glow);
+            background-color: rgba(255, 100, 0, 0.15);
+            border-bottom-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
             color: #fff;
         }
 
@@ -153,17 +186,17 @@
             font-weight: 600;
             color: #fff;
             letter-spacing: 1px;
-            background-color: rgba(231, 76, 60, 0.1); 
+            background-color: rgba(231, 76, 60, 0.15); 
         }
 
         .hex-input:focus {
-            border-bottom-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
+            border-bottom-color: #fff;
+            box-shadow: 0 0 20px #fff, 0 0 35px var(--accent-glow);
         }
         
         hr {
             border: none;
-            border-top: 2px solid var(--card-border-glass);
+            border-top: 2px solid rgba(255, 100, 0, 0.2);
             margin: 2rem 0;
             grid-column: span 2;
             opacity: 0.6;
@@ -171,37 +204,23 @@
         }
 
         hr::after {
-            content: "☠️"; 
+            content: "🔥"; 
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: transparent;
             padding: 0 10px;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            text-shadow: 0 0 5px var(--primary-glow);
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--primary-glow);
         }
         
-        /* Mobile Devices အတွက် Responsive အပြင်အဆင် */
         @media (max-width: 480px) {
-            .container {
-                padding: 2rem 1.5rem; /* ဖုန်းမှာ Space နည်းနည်းလျှော့ပေးထားတယ် */
-            }
-            .grid-layout {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-            }
-            .input-group.full-width {
-                grid-column: span 1;
-            }
-            hr {
-                grid-column: span 1;
-                margin: 1.5rem 0;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
+            .container { padding: 2rem 1.5rem; }
+            .grid-layout { grid-template-columns: 1fr; gap: 1.25rem; }
+            .input-group.full-width { grid-column: span 1; }
+            hr { grid-column: span 1; margin: 1.5rem 0; }
+            h2 { font-size: 1.5rem; }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -209,8 +228,8 @@
 <body>
 
     <div class="container">
-        <h2><i class="fas fa-ship"></i> Thousand Sunny <br> <i class="fas fa-history"></i> Transmuter</h2>
-        <p class="subtitle">Enter any numeric bounty to calculate the full treasure value!</p>
+        <h2><i class="fas fa-fire"></i> Ace's Flame <br> <i class="fas fa-history"></i> Transmuter</h2>
+        <p class="subtitle">Convert numeric bounties through the legendary cipher!</p>
 
         <div class="grid-layout">
             <div class="input-group">
