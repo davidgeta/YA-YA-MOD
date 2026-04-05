@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Time & Hex Converter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>One Piece Time Transmuter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #3b82f6;
-            --primary-focus: #2563eb;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-label: #64748b;
-            --border-color: #cbd5e1;
+            /* One Piece / Straw Hat Colors */
+            --primary-color: #f1c40f; /* Luffy's Straw Hat Gold */
+            --primary-glow: #f39c12;
+            --accent-color: #e74c3c; /* Luffy's Vest Red */
+            --accent-glow: #c0392b;
+            --bg-ocean: #2c3e50; /* Deep Ocean Blue */
+            --bg-overlay: rgba(15, 23, 42, 0.7); /* Darker blue overlay */
+            --card-bg-glass: rgba(255, 255, 255, 0.1); /* Transparent glass */
+            --card-border-glass: rgba(255, 255, 255, 0.15);
+            --text-main: #ecf0f1;
+            --text-label: #bdc3c7;
+            --font-main: 'Inter', sans-serif;
+            --font-title: 'Cinzel', serif; /* Thematic font */
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
+            font-family: var(--font-main);
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -27,41 +32,72 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://i.ibb.co/X7R0G5K/thousand-sunny-ocean.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden; /* Prevent background scroll */
+        }
+
+        /* Container Fade-in Animation */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .container {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
+            /* Glassmorphism Effect */
+            background-color: var(--card-bg-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border-glass);
+            padding: 3rem 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 550px;
+            position: relative;
+            animation: fadeInSlideUp 0.6s ease-out forwards;
         }
 
+        /* Thematic Title */
         h2 {
+            font-family: var(--font-title);
             text-align: center;
             margin-top: 0;
             margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-glow);
+            font-size: 2rem;
         }
 
         p.subtitle {
             text-align: center;
             color: var(--text-label);
             font-size: 0.875rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
         }
 
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
+            gap: 1.5rem;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+
+        .input-group:hover {
+            transform: translateY(-3px); /* Subtle float on group hover */
         }
 
         .input-group.full-width {
@@ -73,39 +109,79 @@
             font-weight: 500;
             margin-bottom: 0.5rem;
             color: var(--text-label);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        label i {
+            color: var(--primary-color); /* Icons in gold */
         }
 
         input {
             width: 100%;
-            padding: 0.875rem 1rem;
-            border: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            border: none;
+            border-bottom: 2px solid transparent;
             border-radius: 10px;
             font-size: 1rem;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
             box-sizing: border-box;
-            background-color: #fdfdfd;
-            transition: all 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            transition: all 0.3s ease;
         }
 
+        /* Input Hover Effect */
+        input:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Input Focus Effect */
         input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-bottom-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-glow);
+            color: #fff;
         }
 
         .hex-input {
             font-family: monospace;
             font-weight: 600;
-            color: var(--primary-focus);
+            color: #fff;
             letter-spacing: 1px;
+            background-color: rgba(231, 76, 60, 0.1); /* Red hint for hex */
+        }
+
+        .hex-input:focus {
+            border-bottom-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
         
+        /* Thematic Divider */
         hr {
             border: none;
-            border-top: 1px dashed var(--border-color);
+            border-top: 2px solid var(--card-border-glass);
             margin: 2rem 0;
             grid-column: span 2;
+            opacity: 0.6;
+            position: relative;
+        }
+
+        hr::after {
+            content: "☠️"; /* Straw Hat Skull Icon */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg-glass);
+            padding: 0 10px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px var(--primary-glow);
         }
         
         @media (max-width: 480px) {
@@ -120,43 +196,44 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
     <div class="container">
-        <h2>Smart Time Converter</h2>
-        <p class="subtitle">Type in any field to auto-calculate the rest</p>
+        <h2><i class="fas fa-ship"></i> Thousand Sunny <i class="fas fa-history"></i> Transmuter</h2>
+        <p class="subtitle">Enter any numeric bounty to calculate the full treasure value!</p>
 
         <div class="grid-layout">
             <div class="input-group">
-                <label for="inp-day">Days</label>
+                <label for="inp-day"><i class="fas fa-calendar-day"></i> Days</label>
                 <input type="number" id="inp-day" placeholder="0">
             </div>
 
             <div class="input-group">
-                <label for="inp-hour">Hours</label>
+                <label for="inp-hour"><i class="fas fa-clock"></i> Hours</label>
                 <input type="number" id="inp-hour" placeholder="0">
             </div>
 
             <div class="input-group">
-                <label for="inp-minute">Minutes</label>
+                <label for="inp-minute"><i class="fas fa-stopwatch"></i> Minutes</label>
                 <input type="number" id="inp-minute" placeholder="0">
             </div>
 
             <div class="input-group">
-                <label for="inp-second">Seconds</label>
+                <label for="inp-second"><i class="fas fa-hourglass-half"></i> Seconds</label>
                 <input type="number" id="inp-second" placeholder="0">
             </div>
 
             <div class="input-group full-width">
-                <label for="inp-ms">Milliseconds</label>
+                <label for="inp-ms"><i class="fas fa-bolt"></i> Milliseconds (Bounty in Bellies)</label>
                 <input type="number" id="inp-ms" placeholder="0">
             </div>
 
             <hr>
 
             <div class="input-group full-width">
-                <label for="inp-hex">Hexadecimal (from Milliseconds)</label>
+                <label for="inp-hex"><i class="fas fa-scroll"></i> Ancient Cipher (Hex from Ms)</label>
                 <input type="text" id="inp-hex" class="hex-input" placeholder="e.g. 36EE80">
             </div>
         </div>
@@ -238,5 +315,4 @@
     </script>
 
 </body>
-    </html>
-                
+</html>
