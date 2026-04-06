@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece Time Transmuter (Ace Edition)</title>
+    <title>Ace's Flame Transmuter (Flicker Borders)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,9 +12,14 @@
             --primary-glow: #f39c12;
             --accent-color: #e74c3c; 
             --accent-glow: #c0392b;
+            /* Deeper fire colors for limited dots */
+            --fire-core: #fff7e0;
+            --fire-inner: #ffc400;
+            --fire-outer: #ff5722;
+            --fire-far: #bf360c;
             
-            --bg-overlay: rgba(15, 23, 42, 0.65); 
-            --card-bg-glass: rgba(20, 20, 25, 0.2); 
+            --bg-overlay: rgba(15, 23, 42, 0.65); /* Darker glass overlay */
+            --card-bg-glass: rgba(20, 20, 25, 0.4); /* Warmer, darker glass background */
             --text-main: #ecf0f1;
             --text-label: #bdc3c7;
             --font-main: 'Inter', sans-serif;
@@ -40,28 +45,32 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* နေရာကွက်ကြား မီးတောက်မယ့် Animation များ */
-        @keyframes fire-flare-1 {
-            0% { opacity: 0; filter: blur(8px); transform: scale(0.98); }
-            30% { opacity: 1; filter: blur(12px); transform: scale(1.02); }
-            60% { opacity: 0.2; filter: blur(10px); transform: scale(1); }
-            100% { opacity: 0; filter: blur(8px); transform: scale(0.98); }
-        }
-
-        @keyframes fire-flare-2 {
-            0% { opacity: 0.8; filter: blur(10px); transform: scale(1.01); }
-            40% { opacity: 0; filter: blur(6px); transform: scale(0.99); }
-            70% { opacity: 0.9; filter: blur(14px); transform: scale(1.03); }
-            100% { opacity: 0.2; filter: blur(10px); transform: scale(1); }
+        /* နေရာကွက်ကြား flickering မီးတောက်အစက်ငယ်များအတွက် Keyframes */
+        @keyframes fire-dot-flicker {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(1);
+                box-shadow: 0 0 5px rgba(255, 69, 0, 0);
+            }
+            30%, 70% {
+                opacity: 1;
+                transform: scale(1.1);
+                box-shadow: 0 0 15px rgba(255, 69, 0, 0.6), 0 0 10px var(--primary-glow);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+                box-shadow: 0 0 12px rgba(255, 69, 0, 0.5);
+            }
         }
 
         .container {
             background-color: var(--card-bg-glass);
-            backdrop-filter: blur(0.6px);
-            -webkit-backdrop-filter: blur(0.6px);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             
             /* Box ရဲ့ ပုံမှန်ဘောင်ကို မှိန်ထားပါမယ် */
-            border: 1px solid rgba(255, 100, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.1);
             
             padding: 3rem 2.5rem;
             border-radius: 20px;
@@ -69,38 +78,91 @@
             max-width: 550px;
             position: relative;
             margin: auto; 
-            z-index: 1; /* အနောက်က မီးတောက်တွေ Box အပေါ်မရောက်လာအောင် */
+            
+            /* Performance အတွက် z-index ကို manage လုပ်ပါတယ် */
+            z-index: 1;
             animation: fadeInSlideUp 0.6s ease-out forwards;
+            
+            /* input groups များအတွက် relative position */
+            overflow: visible;
         }
 
-        /* Box အနောက်ကနေ နေရာကွက်ကြား လင်းမယ့် မီးတောက် (အပိုင်း ၁) */
+        /* Box edges များပေါ်တွင် randomly placed dots များနှင့် flicker animation */
+        .container::before, .container::after,
+        .input-group::before, .input-group::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            background: radial-gradient(circle, var(--fire-core) 0%, var(--fire-inner) 40%, var(--fire-outer) 70%, transparent 100%);
+            animation: fire-dot-flicker infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        /* Dots placement and animation duration/delay (8 dots total) */
+        /* Dot 1 (Top Left) */
         .container::before {
-            content: '';
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 25px;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 10% 0%, rgba(255, 69, 0, 0.8) 0%, transparent 35%),
-                radial-gradient(circle at 90% 100%, rgba(255, 165, 0, 0.7) 0%, transparent 40%),
-                radial-gradient(circle at 100% 40%, rgba(255, 0, 0, 0.6) 0%, transparent 30%);
-            animation: fire-flare-1 4s infinite alternate ease-in-out;
-            pointer-events: none;
+            width: 10px; height: 10px;
+            top: 2%; left: 2%;
+            animation-duration: 2.2s;
+            animation-delay: 0.1s;
         }
-
-        /* Box အနောက်ကနေ နေရာကွက်ကြား လင်းမယ့် မီးတောက် (အပိုင်း ၂) */
+        /* Dot 2 (Top Right) */
         .container::after {
+            width: 8px; height: 8px;
+            top: 2%; right: 2%;
+            animation-duration: 2.7s;
+            animation-delay: 0.8s;
+        }
+        /* Dot 3 (Bottom Left) */
+        .grid-layout::before {
             content: '';
             position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 25px;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 80% 0%, rgba(255, 140, 0, 0.9) 0%, transparent 40%),
-                radial-gradient(circle at 10% 100%, rgba(255, 69, 0, 0.8) 0%, transparent 35%),
-                radial-gradient(circle at 0% 50%, rgba(243, 156, 18, 0.7) 0%, transparent 30%);
-            animation: fire-flare-2 5s infinite alternate-reverse ease-in-out;
-            pointer-events: none;
+            width: 12px; height: 12px;
+            bottom: 2%; left: 2%;
+            background: radial-gradient(circle, var(--fire-core) 0%, var(--fire-inner) 40%, var(--fire-outer) 70%, transparent 100%);
+            border-radius: 50%;
+            animation: fire-dot-flicker 2s infinite alternate ease-in-out;
+            animation-delay: 1.5s;
+        }
+        /* Dot 4 (Bottom Right) */
+        .grid-layout::after {
+            content: '';
+            position: absolute;
+            width: 9px; height: 9px;
+            bottom: 2%; right: 2%;
+            background: radial-gradient(circle, var(--fire-core) 0%, var(--fire-inner) 40%, var(--fire-outer) 70%, transparent 100%);
+            border-radius: 50%;
+            animation: fire-dot-flicker 2.5s infinite alternate-reverse ease-in-out;
+            animation-delay: 0.5s;
+        }
+        /* Dot 5 (Side) */
+        .input-group:nth-child(1)::before {
+            width: 7px; height: 7px;
+            top: 40%; left: -10px;
+            animation-duration: 1.8s;
+            animation-delay: 1.2s;
+        }
+        /* Dot 6 (Side) */
+        .input-group:nth-child(2)::before {
+            width: 11px; height: 11px;
+            top: 60%; right: -15px;
+            animation-duration: 3s;
+            animation-delay: 0.3s;
+        }
+        /* Dot 7 (Side) */
+        .input-group:nth-child(3)::before {
+            width: 6px; height: 6px;
+            top: 10%; right: -8px;
+            animation-duration: 2.1s;
+            animation-delay: 0.9s;
+        }
+        /* Dot 8 (Side) */
+        .input-group:nth-child(4)::after {
+            width: 10px; height: 10px;
+            bottom: 10%; left: -12px;
+            animation-duration: 2.9s;
+            animation-delay: 1.6s;
         }
 
         /* Thematic Title */
@@ -127,12 +189,14 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
+            position: relative; /* relative for dots positioning */
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
             transition: transform 0.2s ease;
+            position: relative; /* relative for dots positioning */
         }
 
         .input-group:hover { transform: translateY(-3px); }
